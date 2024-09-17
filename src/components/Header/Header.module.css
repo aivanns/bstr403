@@ -1,0 +1,28 @@
+.header {
+    margin: 0;
+}
+.main {
+    margin: 0;
+}
+.header_nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #222;
+    border-bottom: 2px solid #333;
+}
+
+.header_nav_name {
+    margin: 0;
+}
+
+.header_nav_tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header_link {
+    cursor: pointer;
+}

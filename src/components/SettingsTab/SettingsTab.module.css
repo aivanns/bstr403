@@ -1,0 +1,46 @@
+.settings {
+    display: flex;
+    justify-content: center;
+}
+
+.settings_win {
+    background-color: #222;
+    margin-top: 50px;
+    height: 650px;
+    width: 750px;
+    border: 2px solid #333;
+    border-radius: 5px;
+}
+
+.settings_form {
+
+}
+
+.settings_input {    
+    display: block;
+    text-align: center;
+    margin: 10px auto;
+    align-self: center;
+    height: 20px;
+    width: 150px;
+    border-radius: 5px;
+    border: 1px solid #333;
+}
+
+.btn {
+    display: block;
+    margin: 0 auto;
+    height: 30px;
+    width: 100px;
+    color: #fff;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+}
+
+.settings_title {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+}

@@ -1,0 +1,39 @@
+.paneltab {}
+
+.paneltab_card {
+    margin: 50px auto;
+    width: 90%;
+    height: 700px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 2px solid #333;
+    border-radius: 5px;
+}
+
+.paneltab_card_etc {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #222;
+    border-bottom: 2px solid #333;
+}
+
+.paneltab_time {
+    text-align: end;
+    padding: 5px;
+    padding-right: 15px;
+    font-size: 16px;
+}
+
+.paneltab_timetab {
+    text-align: end;
+}
+
+.paneltab_button {
+    margin-left: 10px;
+    height: 40px;
+    width: 150px;
+    color: #fff;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+}

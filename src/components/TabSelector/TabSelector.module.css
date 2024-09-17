@@ -1,0 +1,17 @@
+.header_nav_tab {
+    opacity: 0.5;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.header_nav_tab:hover {
+    opacity: 1;
+}
+
+.header_nav_tab.active {
+    opacity: 1;
+}
+
+.header_nav_tab + .header_nav_tab {
+    margin-left: 30px;
+}
