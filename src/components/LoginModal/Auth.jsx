@@ -1,10 +1,11 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import {host} from '../../globals'
 
 export default function Auth(login, password) {
     const cookies = new Cookies();
         axios
-        .post('http://212.193.27.248:8000/auth/cookie', {
+        .post(`http://${host}/auth/cookie`, {
              'username':login,
              'password':password
             })

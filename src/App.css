@@ -3,7 +3,7 @@
 body {
   background-color: #111;
   font-family: 'Ubuntu';
-  color: #aaa;
+  color: #fff;
 }
 
 p {
@@ -31,7 +31,7 @@ caption {
 
 thead,
 tfoot {
-  background-color: black;
+  background-color: #222;
 }
 
 th,
@@ -47,9 +47,6 @@ td:last-of-type {
   text-align: center;
 }
 
-tbody > tr:nth-of-type(even) {
-  background-color: #333;
-}
 
 tfoot th {
   text-align: right;

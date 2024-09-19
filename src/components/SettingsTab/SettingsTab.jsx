@@ -1,5 +1,4 @@
 import classes from './SettingsTab.module.css';
-import ToggleSwitch from '../ToggleSwitch/ToggleSwitch';
 
 export default function SettingsTab() {
 

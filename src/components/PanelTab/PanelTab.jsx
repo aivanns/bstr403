@@ -1,61 +1,108 @@
 import classes from './PanelTab.module.css';
 import { useEffect, useState } from 'react';
 import UserTableElement from '../UserTableElement/UserTableElement';
-import axios from 'axios';
+import { host } from '../../globals';
+import Cookies from 'universal-cookie';
+import { jwtDecode } from 'jwt-decode';
 
 export default function PanelTab() {
-    const [currentTime, setCurrentTime] = useState(() => new Date());
-    const [state, setState] = useState(true);
+	const cookies = new Cookies;
     const [users, setUsers] = useState([]);
+    const [usersList, setUsersList] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    async function GetUsers() {
-      // await axios
-      //     .get('http://192.168.31.92:8000/websockets/fake_connections')
-      //     .then(
-      //         (response) => {
-      //             setUsers(response.data)
-      //         }
-      //     )
-      setIsLoading(true);
-      const response = await fetch('http://192.168.31.92:8000/websockets/fake_connections')
+	function roundNumber(number, digits) {
+		var multiple = Math.pow(10, digits);
+		var rndedNum = Math.round(number * multiple) / multiple;
+		return rndedNum;
+	}
 
-      const users = await response.json();
-      setUsers(users)
-      setIsLoading(false);
-  }
+    function saveToLocalStorage(data) {
+        localStorage.setItem('usersList', JSON.stringify(data));
+    }
+
+
+    function loadFromLocalStorage() {
+        const savedUsersList = localStorage.getItem('usersList');
+        return savedUsersList ? JSON.parse(savedUsersList) : null;
+    }
+
+    async function GetUsers() {
+        setIsLoading(true);
+        const response = await fetch(`http://${host}/websockets/fake_connections`);
+        const users = await response.json();
+        setUsers(users);
+
+
+        const savedUsersList = loadFromLocalStorage();
+        if (savedUsersList) {
+
+            const updatedUsersList = users.map(user => {
+                const existingUser = savedUsersList.find(item => item[user.id] !== undefined);
+                return existingUser ? existingUser : { [user.id]: false }; 
+            });
+            setUsersList(updatedUsersList);
+            saveToLocalStorage(updatedUsersList);
+        } else {
+
+            const initialUsersList = users.map(user => ({ [user.id]: false }));
+            setUsersList(initialUsersList);
+            saveToLocalStorage(initialUsersList);
+        }
+
+        setIsLoading(false);
+    }
+
+    function handleButton(user, i) {
+        const updatedUsersList = [...usersList];
+        updatedUsersList[i][user.id] = !updatedUsersList[i][user.id];
+        setUsersList(updatedUsersList);
+        saveToLocalStorage(updatedUsersList);
+    }
 
     useEffect(() => {
-      GetUsers()
+        GetUsers();
+		if (cookies.get('auth') != undefined) {
+			if (Number((Date.now() / 1000).toFixed(0)) > jwtDecode(cookies.get('auth')).exp) {
+				cookies.remove('auth', { path: '/' })
+				window.location.reload()
+			}
+	}
     }, []);
-    setInterval(() => {setCurrentTime(new Date())}, 1000);
+
     return (
-    <section className={classes.paneltab}>
-      <div className={classes.paneltab_card}>
-        <div className={classes.paneltab_card_etc}>
-            <button className={classes.paneltab_button}>Запретить вход</button>
-            <div className={classes.paneltab_timetab}>
-                <p className={classes.paneltab_time}>{currentTime.toLocaleDateString()}</p>
-                <p className={classes.paneltab_time}>{currentTime.toLocaleTimeString()}</p>
-            </div>
+      <section className={classes.paneltab}>
+        <div className={classes.paneltab_card}>
+          <div className={classes.paneltab_card_etc}>
+              <button className={classes.paneltab_button}>Запретить вход</button>
+          </div>
+          {cookies.get('auth') != undefined ? 
+			<table>
+				<thead>
+				<tr>
+					<th scope="col" id='fcol'>Компьютер</th>
+					<th scope="col" id='scol'>Пользователь</th>
+					<th scope="col" id='tcol'>Баннер</th>
+				</tr>
+				</thead>
+				<tbody>
+				{!isLoading ? users.map((user, i) => (
+					<UserTableElement 
+					key={user.id} 
+					computer_id={user.id} 
+					user={user.name} 
+					state={usersList[i] ? usersList[i][user.id] : false}
+					onClick={() => handleButton(user, i)}
+					/>
+				)) : (
+					<UserTableElement computer_id={'Loading...'} user={'Loading...'} state={false} />
+				)}
+				</tbody>
+			</table>
+			:
+			<p className={classes.paneltab_tabletext}>Требуется авторизация</p>
+			}
         </div>
-        <table>
-  <thead>
-    <tr>
-      <th scope="col" id='fcol'>Компьютер</th>
-      <th scope="col" id='scol'>Пользователь</th>
-      <th scope="col" id='tcol'>Баннер</th>
-    </tr>
-  </thead>
-  <tbody>
-  {!isLoading ? users.map(user => {
-    <UserTableElement computer_id={user.id} user={user.name} state={state} onClick={setState}/>
-  }): <UserTableElement computer_id={'Loading...'} user={'Loading...'} state={state} onClick={setState} />}
-  </tbody>
-</table>
-
-      </div>
-    </section>
-  );
-
+      </section>
+    );
 }
