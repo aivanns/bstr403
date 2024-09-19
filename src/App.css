@@ -36,7 +36,8 @@ tfoot {
 
 th,
 td {
-  border: 1px solid rgb(160 160 160);
+  border-top: 1px solid rgb(160 160 160);
+  border-bottom: 1px solid rgb(160 160 160);
   padding: 8px 10px;
   text-align: center;
   vertical-align: middle;
@@ -60,6 +61,21 @@ tfoot td {
 
 #fcol {
   width: 0px;
+}
+
+#tcol {
+  width: 0;
+}
+
+.button {
+  margin-left: 10px;
+  height: 25px;
+  width: 125px;
+  color: #fff;
+  background-color: #333;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
 }
 
 ::-webkit-scrollbar {

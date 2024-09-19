@@ -101,9 +101,10 @@
   }
   
   .deleteBtn:hover {
-    box-shadow: 0 10px 20px -10px rgba(255, 62, 78, 0.6);
+    box-shadow: 0 10px 20px -10px rgba(255, 255, 255, 0.6);
     transform: translateY(-5px);
-    background: #ff3e4e;
+    background: #fff;
+    color: #333;
   }
   
   .cancelBtn {
