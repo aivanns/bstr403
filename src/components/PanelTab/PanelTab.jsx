@@ -4,18 +4,13 @@ import UserTableElement from '../UserTableElement/UserTableElement';
 import { host } from '../../globals';
 import Cookies from 'universal-cookie';
 import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 
 export default function PanelTab() {
 	const cookies = new Cookies;
     const [users, setUsers] = useState([]);
     const [usersList, setUsersList] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
-	function roundNumber(number, digits) {
-		var multiple = Math.pow(10, digits);
-		var rndedNum = Math.round(number * multiple) / multiple;
-		return rndedNum;
-	}
 
     function saveToLocalStorage(data) {
         localStorage.setItem('usersList', JSON.stringify(data));
@@ -55,6 +50,19 @@ export default function PanelTab() {
 
     function handleButton(user, i) {
         const updatedUsersList = [...usersList];
+		console.log({
+			'message': updatedUsersList[i][user.id] ? 1 : 2,
+			'user_id': user.id
+		  })
+		axios.post(`http://${host}/websockets/send_personal_message`, {
+			'message': updatedUsersList[i][user.id] ? 1 : 2,
+			'user_id': user.id
+		  }, {
+			headers: {
+			  "Authorization": `Bearer ${cookies.get('auth')}`
+			}
+		  })
+		  
         updatedUsersList[i][user.id] = !updatedUsersList[i][user.id];
         setUsersList(updatedUsersList);
         saveToLocalStorage(updatedUsersList);

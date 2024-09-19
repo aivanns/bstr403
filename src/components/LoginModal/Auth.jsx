@@ -5,7 +5,7 @@ import {host} from '../../globals'
 export default function Auth(login, password) {
     const cookies = new Cookies();
         axios
-        .post(`http://${host}/auth/cookie`, {
+        .post(`http://${host}/auth/token`, {
              'username':login,
              'password':password
             })
