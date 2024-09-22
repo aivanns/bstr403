@@ -24,7 +24,11 @@ export default function PanelTab() {
 
     async function GetUsers() {
         setIsLoading(true);
-        const response = await fetch(`http://${host}/websockets/fake_connections`);
+        const response = await fetch(`http://${host}/websockets/get_active_connections`, {
+          headers: {
+            "Authorization": `Bearer ${cookies.get('auth')}`
+          }
+        });
         const users = await response.json();
         setUsers(users);
 
@@ -50,14 +54,7 @@ export default function PanelTab() {
 
     function handleButton(user, i) {
         const updatedUsersList = [...usersList];
-		console.log({
-			'message': updatedUsersList[i][user.id] ? 1 : 2,
-			'user_id': user.id
-		  })
-		axios.post(`http://${host}/websockets/send_personal_message`, {
-			'message': updatedUsersList[i][user.id] ? 1 : 2,
-			'user_id': user.id
-		  }, {
+		axios.post(`http://${host}/websockets/send_personal_message?message=${updatedUsersList[i][user.id] ? 1 : 2}&user_id=${user.id}`, {}, {
 			headers: {
 			  "Authorization": `Bearer ${cookies.get('auth')}`
 			}
@@ -82,7 +79,6 @@ export default function PanelTab() {
       <section className={classes.paneltab}>
         <div className={classes.paneltab_card}>
           <div className={classes.paneltab_card_etc}>
-              <button className={classes.paneltab_button}>Запретить вход</button>
           </div>
           {cookies.get('auth') != undefined ? 
 			<table>
