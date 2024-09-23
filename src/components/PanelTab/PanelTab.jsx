@@ -22,6 +22,48 @@ export default function PanelTab() {
         return savedUsersList ? JSON.parse(savedUsersList) : null;
     }
 
+    async function setAuthState(toSet) {
+      if (toSet) {
+        axios.post(`http://${host}/control/enable`, {},
+          {
+            headers: {
+            "Authorization": `Bearer ${cookies.get('auth')}`
+          }
+        });
+      }
+      else {
+        axios.post(`http://${host}/control/disable`, {},
+          {
+            headers: {
+            "Authorization": `Bearer ${cookies.get('auth')}`
+          }
+        });
+
+      }
+
+    }
+
+    async function setBannerState(toSet) {
+      if (toSet) {
+        axios.post(`http://${host}/websockets/send_to_all?message=2`, {},
+          {
+            headers: {
+            "Authorization": `Bearer ${cookies.get('auth')}`
+          }
+        });
+      }
+      else {
+        axios.post(`http://${host}/websockets/send_to_all?message=1`, {},
+          {
+            headers: {
+            "Authorization": `Bearer ${cookies.get('auth')}`
+          }
+        });
+
+      }
+
+    }
+
     async function GetUsers() {
         setIsLoading(true);
         const response = await fetch(`http://${host}/websockets/get_active_connections`, {
@@ -79,6 +121,21 @@ export default function PanelTab() {
       <section className={classes.paneltab}>
         <div className={classes.paneltab_card}>
           <div className={classes.paneltab_card_etc}>
+            {cookies.get('auth') != undefined && 
+            <div>
+              <button className={classes.paneltab_button} onClick={() => setAuthState(true)}>Разрешить вход</button>
+              <button className={classes.paneltab_button} onClick={() => setAuthState(false)}>Запретить вход</button>
+            </div>
+            }  
+            {
+              cookies.get('auth') == undefined ? <p className={classes.paneltab_tabletext}>Требуется авторизация</p> : <></>
+            }
+            {cookies.get('auth') != undefined && 
+            <div>
+              <button className={classes.paneltab_button} onClick={() => setBannerState(true)}>Развернуть все баннеры</button>
+              <button className={classes.paneltab_button} onClick={() => setBannerState(false)}>Свернуть все баннеры</button>
+            </div>
+            }
           </div>
           {cookies.get('auth') != undefined ? 
 			<table>
@@ -104,7 +161,7 @@ export default function PanelTab() {
 				</tbody>
 			</table>
 			:
-			<p className={classes.paneltab_tabletext}>Требуется авторизация</p>
+			<></>
 			}
         </div>
       </section>

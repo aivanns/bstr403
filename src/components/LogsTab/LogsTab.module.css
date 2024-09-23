@@ -1,8 +1,8 @@
-.paneltab {
+.logstab {
     margin: 0;
 }
 
-.paneltab_card {
+.logstab_card {
     margin: 50px auto;
     width: 90%;
     height: auto;
@@ -12,7 +12,7 @@
     overflow: auto;
 }
 
-.paneltab_card_etc {
+.logstab_card_etc {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -21,18 +21,7 @@
     height: 45px;
 }
 
-.paneltab_time {
-    text-align: end;
-    padding: 5px;
-    padding-right: 15px;
-    font-size: 16px;
-}
-
-.paneltab_timetab {
-    text-align: end;
-}
-
-.paneltab_button {
+.logstab_button {
     margin: 5px 5px;
     height: 35px;
     width: 150px;
@@ -42,8 +31,22 @@
     border-radius: 5px;
 }
 
-.paneltab_tabletext {
+.logstab_tabletext {
     margin: auto;
     text-align: center;
     vertical-align: middle;
+}
+
+.logstab_icon {
+    height: 25px;
+    width: 25px;
+    margin-top: 3px;
+    color: #777;
+}
+
+.logstab_refreshbtn {
+    margin-right: 2px;
+    background-color: #333;
+    border: 3px solid #222;
+    border-radius: 5px;
 }

@@ -1,6 +1,19 @@
+import Cookies from 'universal-cookie';
 import classes from './SettingsTab.module.css';
+import { useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 export default function SettingsTab() {
+    const cookies = new Cookies()
+
+    useEffect(() => {
+		if (cookies.get('auth') != undefined) {
+			if (Number((Date.now() / 1000).toFixed(0)) > jwtDecode(cookies.get('auth')).exp) {
+				cookies.remove('auth', { path: '/' })
+				window.location.reload()
+			}
+	}
+    }, []);
 
     return (
     <section className={classes.settings}>
