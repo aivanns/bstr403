@@ -5,13 +5,30 @@ import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { IoMdRefresh } from "react-icons/io";
 import {host} from '../../globals'
+import axios from 'axios';
 
 export default function LogsTab() {
     const cookies = new Cookies()
 
     const [isLoading, setIsLoading] = useState(false);
     const [logs, setLogs] = useState([]);
-    const [refresh, setRefresh] = useState(false);
+
+    async function RemLogs(amount = 10) {
+        setIsLoading(true)
+        const count = document.getElementById("logscount").value
+        if (count > 0) {
+            amount = count
+        }
+        axios
+            .post(`http://${host}/log/delete_logs?amount=${amount}`, {}, {
+                headers: {
+                  "Authorization": `Bearer ${cookies.get('auth')}`
+                }
+              })
+            .then(
+                setIsLoading(false)
+            )
+    }
 
     async function GetLogs() {
         setIsLoading(true);
@@ -39,7 +56,10 @@ export default function LogsTab() {
         <section className={classes.logsection}>
             <div className={classes.logstab_card}>
                 <div className={classes.logstab_card_etc}>
-                    <button className={classes.logstab_button} onClick={() => console.log(refresh)}>Очистить логи</button>
+                    <div>
+                        <button className={classes.logstab_button} onClick={() => RemLogs()}>Очистить логи</button>
+                        <input type="text" id="logscount" className={classes.logstab_input} placeholder='Кол-во'/>
+                    </div>
                     {
                     cookies.get('auth') == undefined ? <p className={classes.logstab_tabletext}>Требуется авторизация</p> : <></>
                     }
@@ -59,14 +79,15 @@ export default function LogsTab() {
 				<tbody>
 				{!isLoading ? logs.map((log, i) => (
 					<LogTableElement
-                    id={i.time}
+                    id={Date()}
 					comp_id={log.id} 
 					time={log.time}
                     event={log.event} 
 					username={log.username}
 					/>
 				)) : (
-					<LogTableElement 
+					<LogTableElement
+                    id={1}
 					comp_id={"Loading..."} 
 					time={"Loading..."}
                     event={"Loading..."} 

@@ -48,5 +48,14 @@
     margin-right: 2px;
     background-color: #333;
     border: 3px solid #222;
+    border-radius: 10px;
+}
+
+.logstab_input {
+    margin: 5px 0;
+    height: 25px;
+    width: 50px;
+    border: none;
     border-radius: 5px;
+    
 }
