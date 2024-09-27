@@ -83,7 +83,7 @@ export default function LogsTab() {
 					comp_id={log.id} 
 					time={log.time}
                     event={log.event} 
-					username={log.username}
+					username={`${log.username != null ? log.username : ""} ${log.group!= null ? ` | ${log.group}` : ""}`}
 					/>
 				)) : (
 					<LogTableElement
