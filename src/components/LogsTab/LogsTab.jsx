@@ -56,14 +56,20 @@ export default function LogsTab() {
         <section className={classes.logsection}>
             <div className={classes.logstab_card}>
                 <div className={classes.logstab_card_etc}>
+                    {cookies.get('auth') != undefined &&
                     <div>
                         <button className={classes.logstab_button} onClick={() => RemLogs()}>Очистить логи</button>
                         <input type="text" id="logscount" className={classes.logstab_input} placeholder='Кол-во'/>
                     </div>
+                    }
+                    
                     {
                     cookies.get('auth') == undefined ? <p className={classes.logstab_tabletext}>Требуется авторизация</p> : <></>
                     }
-                    <button className={classes.logstab_refreshbtn}><IoMdRefresh className={classes.logstab_icon} onClick={() => window.location.reload()}/></button>
+                    {cookies.get('auth') != undefined &&
+                        <button className={classes.logstab_refreshbtn}><IoMdRefresh className={classes.logstab_icon} onClick={() => window.location.reload()}/></button>
+                    }
+                    
                     
                 </div>
                 {cookies.get('auth') != undefined ? 
@@ -79,7 +85,7 @@ export default function LogsTab() {
 				<tbody>
 				{!isLoading ? logs.map((log, i) => (
 					<LogTableElement
-                    id={Date()}
+                    key={i}
 					comp_id={log.id} 
 					time={log.time}
                     event={log.event} 
@@ -87,7 +93,6 @@ export default function LogsTab() {
 					/>
 				)) : (
 					<LogTableElement
-                    id={1}
 					comp_id={"Loading..."} 
 					time={"Loading..."}
                     event={"Loading..."} 

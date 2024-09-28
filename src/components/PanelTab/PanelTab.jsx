@@ -151,7 +151,7 @@ export default function PanelTab() {
 					<UserTableElement 
 					key={user.id} 
 					computer_id={user.id} 
-					user={user.name} 
+					user={`${user.username != null ? user.username : ""} ${user.group!= null ? ` | ${user.group}` : ""}`} 
 					state={usersList[i] ? usersList[i][user.id] : false}
 					onClick={() => handleButton(user, i)}
 					/>
