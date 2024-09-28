@@ -1,9 +1,11 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import {host} from '../../globals'
 
 export default function Auth(login, password) {
     const cookies = new Cookies();
+
+    const host = `${localStorage.getItem('ip')}:${localStorage.getItem('port')}`
+
         axios
         .post(`http://${host}/auth/token`, {
              'username':login,

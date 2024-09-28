@@ -4,7 +4,6 @@ import LogTableElement from '../LogTableElement/LogTableElement';
 import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { IoMdRefresh } from "react-icons/io";
-import {host} from '../../globals'
 import axios from 'axios';
 
 export default function LogsTab() {
@@ -12,6 +11,8 @@ export default function LogsTab() {
 
     const [isLoading, setIsLoading] = useState(false);
     const [logs, setLogs] = useState([]);
+
+    const host = `${localStorage.getItem('ip')}:${localStorage.getItem('port')}`
 
     async function RemLogs(amount = 10) {
         setIsLoading(true)

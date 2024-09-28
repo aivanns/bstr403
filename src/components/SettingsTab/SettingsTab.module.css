@@ -20,16 +20,17 @@
     display: block;
     text-align: center;
     margin: 10px auto;
-    align-self: center;
     height: 20px;
     width: 150px;
     border-radius: 5px;
     border: 1px solid #333;
 }
 
+
 .btn {
     display: block;
     margin: 0 auto;
+    margin-bottom: 10px;
     height: 30px;
     width: 100px;
     color: #fff;

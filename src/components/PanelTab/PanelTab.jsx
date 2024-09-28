@@ -1,7 +1,6 @@
 import classes from './PanelTab.module.css';
 import { useEffect, useState } from 'react';
 import UserTableElement from '../UserTableElement/UserTableElement';
-import { host } from '../../globals';
 import Cookies from 'universal-cookie';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
@@ -11,7 +10,7 @@ export default function PanelTab() {
     const [users, setUsers] = useState([]);
     const [usersList, setUsersList] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
+    const host = `${localStorage.getItem('ip')}:${localStorage.getItem('port')}`
     function saveToLocalStorage(data) {
         localStorage.setItem('usersList', JSON.stringify(data));
     }
